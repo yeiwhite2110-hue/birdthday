@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Birthday</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:radial-gradient(circle,#1a0066,#000);
+font-family:sans-serif;
+overflow:hidden;
+color:white;
+}
+
+/* FLASH */
+
+.flash{
+position:fixed;
+width:100%;
+height:100%;
+background:white;
+opacity:0;
+pointer-events:none;
+}
+
+/* GRID */
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(3,120px);
+gap:18px;
+}
+
+/* IMAGE */
+
+.gallery img{
+width:120px;
+height:120px;
+object-fit:cover;
+border-radius:20px;
+border:4px solid #ff4df0;
+box-shadow:0 0 15px #ff4df0;
+transition:0.5s;
+}
+
+/* ACTIVE IMAGE */
+
+.active{
+transform:scale(1.25);
+box-shadow:0 0 30px #ff00ff;
+}
+
+/* TEXT CENTER */
+
+.center{
+position:absolute;
+text-align:center;
+}
+
+/* TITLE */
+
+.title{
+font-size:55px;
+text-shadow:0 0 30px cyan;
+}
+
+/* LETTER */
+
+.card{
+background:#fff8e7;
+color:#333;
+padding:25px;
+border-radius:20px;
+width:320px;
+transform:scale(0);
+box-shadow:0 0 40px pink;
+}
+
+.open{
+animation:open 1s forwards;
+}
+
+@keyframes open{
+to{transform:scale(1)}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="flash" id="flash"></div>
+
+<audio id="music" src="music.mp3" autoplay muted loop></audio>
+
+<!-- GRID -->
+
+<div class="gallery" id="gallery">
+
+<img src="img1.jpg">
+<img src="img2.jpg">
+<img src="img3.jpg">
+<img src="img4.jpg">
+<img src="img5.jpg">
+<img src="img6.jpg">
+<img src="img7.jpg">
+<img src="img8.jpg">
+<img src="img9.jpg">
+
+</div>
+
+<!-- BIRTHDAY -->
+
+<div class="center" id="birthday" style="display:none">
+<div class="title">🎉 Happy Birthday 🎉</div>
+<h2>Võ Nguyễn Bảo Trâm</h2>
+<p class="date">16 / 04 / 2010</p>
+</div>
+
+<!-- LETTER -->
+
+<div class="center" id="letter" style="display:none">
+<div class="card" id="card">
+
+<h2>Happy Birthday 💖</h2>
+
+<p>
+Chúc mừng sinh nhật em, Trâm…
+
+Có thể anh không phải là người hoàn hảo,
+nhưng từ lúc có em, anh đã cố gắng trở thành phiên bản tốt hơn của chính mình.
+
+Em đến không ồn ào,
+nhưng lại ở trong tim anh lâu hơn anh từng nghĩ…
+
+Anh không biết tương lai sẽ như thế nào,
+chỉ biết rằng hiện tại,
+anh vẫn muốn nắm tay em đi thêm thật lâu nữa…
+
+Chúc em luôn bình yên,
+dù sau này người đứng cạnh em có còn là anh hay không…
+
+Nhưng nếu có thể,
+anh vẫn muốn là người ở bên em
+trong tất cả những sinh nhật sau này.🎉
+</p>
+
+</div>
+</div>
+
+<script>
+
+const imgs=document.querySelectorAll(".gallery img");
+const flash=document.getElementById("flash");
+const audio=document.getElementById("music");
+
+let i=0;
+
+/* UNLOCK AUDIO */
+
+document.addEventListener("click",()=>{
+audio.muted=false;
+audio.play();
+},{once:true});
+
+/* FLASH EFFECT */
+
+function beat(){
+
+flash.style.opacity=0.8;
+
+setTimeout(()=>{
+flash.style.opacity=0;
+},120);
+
+}
+
+/* ZOOM LOOP */
+
+function animate(){
+
+imgs.forEach(img=>{
+img.classList.remove("active");
+});
+
+imgs[i].classList.add("active");
+
+beat();
+
+i++;
+
+if(i>=imgs.length){
+
+clearInterval(loop);
+
+setTimeout(()=>{
+gallery.style.display="none";
+birthday.style.display="block";
+beat();
+},1000);
+
+setTimeout(()=>{
+birthday.style.display="none";
+letter.style.display="block";
+card.classList.add("open");
+},4000);
+
+}
+
+}
+
+let loop=setInterval(animate,800);
+
+</script>
+
+</body>
+</html>
